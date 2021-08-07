@@ -34,16 +34,15 @@ jobs:
         _Password=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
         echo ::add-mask::$_Password
         echo Password="$_Password" >> $GITHUB_ENV
-    - name: Download Ngrok & NSSM
-      run: |
+    - name: Download Ngrok 
+        run: |
         Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
         Invoke-WebRequest https://raw.githubusercontent.com/thevenholo123/rdp/main/start.bat -OutFile start.bat
         Invoke-WebRequest https://raw.githubusercontent.com/thevenholo123/rdp/main/wallpaper.jpg -OutFile wallpaper.jpg
         Invoke-WebRequest https://raw.githubusercontent.com/thevenholo123/rdp/main/wallpaper.bat -OutFile wallpaper.bat
         Expand-Archive ngrok.zip
-    - name: Copy NSSM & Ngrok to Windows Directory.
+    - name: Copy Ngrok to Windows Directory.
       run: | 
-        copy nssm.exe C:\Windows\System32
         copy ngrok\ngrok.exe C:\Windows\System32
     - name: Connect your NGROK account
       run: .\ngrok\ngrok.exe authtoken ${{ env.NGROK_TOKEN }}
